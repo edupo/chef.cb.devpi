@@ -6,6 +6,8 @@ description 'Installs/Configures devpio'
 long_description 'Installs/Configures devpio'
 version '0.1.0'
 
+depends 'poise-python', '~> 1.5.1'
+
 issues_url 'https://github.com/edupo/chef.cb.devpi/issues' \
   if respond_to?(:issues_url)
 
