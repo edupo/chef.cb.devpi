@@ -8,7 +8,7 @@ addons:
     packages:
       - chefdk
 
-install: echo "skip bundle install"
+install: bundle install
 
 services: docker
 
@@ -25,9 +25,5 @@ before_script:
   - /opt/chefdk/embedded/bin/chef gem install kitchen-dokken
 
 script:
-  - /opt/chefdk/embedded/bin/chef --version
-  - /opt/chefdk/embedded/bin/rubocop --version
-  - /opt/chefdk/embedded/bin/rubocop
-  - /opt/chefdk/embedded/bin/foodcritic --version
-  - /opt/chefdk/embedded/bin/foodcritic . --exclude spec -f any
+  - /opt/chefdk/embedded/bin/rake
   - KITCHEN_LOCAL_YAML=.kitchen.docker.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
