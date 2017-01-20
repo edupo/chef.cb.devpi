@@ -30,9 +30,9 @@ platforms:
         - RUN /usr/bin/apt-get update
 
 suites:
-  - name: default
+  - name: server 
     run_list:
-      - recipe[devpio::default]
+      - recipe[devpio::server]
     verifier:
       inspec_tests:
         - test/smoke/default

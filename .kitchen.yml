@@ -14,9 +14,9 @@ platforms:
   - name: ubuntu-16.04
 
 suites:
-  - name: default
+  - name: server 
     run_list:
-      - recipe[devpio::default]
+      - recipe[devpio::server]
     verifier:
       inspec_tests:
         - test/smoke/default
