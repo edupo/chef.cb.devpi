@@ -1,6 +1,6 @@
 #
 # Cookbook:: devpio
-# Recipe:: client 
+# Recipe:: client
 #
 # Copyright:: 2017, Eduardo Lezcano
 #

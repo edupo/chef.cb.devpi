@@ -21,6 +21,6 @@ control 'devpi-client-1' do
   end
 
   describe command('devpi --version') do
-    its('stdout') { should match (/devpi-client/) }
+    its('stdout') { should match(/devpi-client/) }
   end
 end
