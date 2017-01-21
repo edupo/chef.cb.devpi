@@ -4,7 +4,7 @@ maintainer_email 'contact@eduardolezcano.com'
 license 'apachev2'
 description 'Installs/Configures devpio'
 long_description 'Installs/Configures devpio'
-version '0.1.0'
+version '0.1.1'
 
 depends 'poise-python', '~> 1.5.1'
 

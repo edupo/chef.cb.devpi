@@ -55,8 +55,8 @@ This software is licensed under [Apache License, Version
 ## TODO
 
 - [x] Install devpi server
-- [ ] Configure service for systemd and init.d
-- [ ] Add devpi client
+- [x] Configure service for systemd and init.d
+- [x] Add devpi client
 - [ ] Add Nginx frontend
 - [ ] Add mirror configuration
 - [ ] Create indexes??

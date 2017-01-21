@@ -1,6 +1,6 @@
 #
 # Cookbook:: devpio
-# Attribute Set:: default
+# Recipe:: client 
 #
 # Copyright:: 2017, Eduardo Lezcano
 #
@@ -16,18 +16,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Server
-default['devpi']['server']['host']     = 'localhost'
-default['devpi']['server']['port']     = 3141
+raise if node['platform'] == 'windows'
 
-default['devpi']['server']['home_dir'] = '/home/devpi'
-default['devpi']['server']['data_dir'] = '/var/devpi'
-default['devpi']['server']['user']     = 'devpi'
-default['devpi']['server']['group']    = 'devpi'
+include_recipe 'poise-python'
 
-default['devpi']['server']['name']     = 'devpi-server'
-default['devpi']['server']['version']  = nil
+python_runtime '3'
 
-# Client
-default['devpi']['client']['name']     = 'devpi-client'
-default['devpi']['client']['version']  = nil
+python_package node['devpi']['client']['name'] do
+  version node['devpi']['client']['version'] unless \
+    node['devpi']['client']['version'].nil?
+end
