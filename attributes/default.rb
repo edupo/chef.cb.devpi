@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-default['devpi']['server']['url']      = 'http://localhost'
+default['devpi']['server']['host']     = 'localhost'
 default['devpi']['server']['port']     = 3141
 
 default['devpi']['server']['home_dir'] = '/home/devpi'

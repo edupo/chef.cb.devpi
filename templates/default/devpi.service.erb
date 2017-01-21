@@ -3,10 +3,10 @@ Description=Devpi Server
 After=syslog.target network.target
 
 [Service]
-Type=simple
+Type=forking
 User=<%= @user %>
 Group=<%= @group %>
-ExecStart=source <%= @home_dir %>/bin/activate && <%= @home_dir %>/bin/<%= @name %> --host <%= @url %> --port <%= @port %> --serverdir <%= @data_dir %>
-
+ExecStartPre=-<%= @home_dir %>/bin/<%= @name %> --serverdir <%= @data_dir %> --init
+ExecStart=<%= @home_dir %>/bin/<%= @name %> --host <%= @host %> --port <%= @port %> --serverdir <%= @data_dir %> --start 
 [Install]
 WantedBy=multi-user.target

@@ -16,7 +16,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+raise if node['platform'] == 'windows'
+
 include_recipe 'poise-python'
+
+python_runtime '3'
 
 group node['devpi']['server']['group'] do
   system true
@@ -29,9 +33,17 @@ user node['devpi']['server']['user'] do
   system true
 end
 
+python_virtualenv node['devpi']['server']['home_dir']
+
+python_package node['devpi']['server']['name'] do
+  version node['devpi']['server']['version'] unless \
+    node['devpi']['server']['version'].nil?
+end
+
 directory node['devpi']['server']['home_dir'] do
   owner node['devpi']['server']['user']
   group node['devpi']['server']['group']
+  recursive true
 end
 
 directory node['devpi']['server']['data_dir'] do
@@ -41,12 +53,6 @@ directory node['devpi']['server']['data_dir'] do
   recursive true
 end
 
-python_virtualenv node['devpi']['server']['home_dir']
-
-python_package node['devpi']['server']['name'] do
-  version node['devpi']['server']['version'] unless \
-    node['devpi']['server']['version'].nil?
-end
 
 if node['init_package'] == 'systemd'
 
@@ -69,8 +75,9 @@ if node['init_package'] == 'systemd'
       :group => node['devpi']['server']['group'],
       :home_dir => node['devpi']['server']['home_dir'],
       :data_dir => node['devpi']['server']['data_dir'],
-      :url => node['devpi']['server']['url'],
+      :host => node['devpi']['server']['host'],
       :port => node['devpi']['server']['port'],
+      :storage => 'sqlite'
     )
   end
 
@@ -86,7 +93,7 @@ else
       :group => node['devpi']['server']['group'],
       :home_dir => node['devpi']['server']['home_dir'],
       :data_dir => node['devpi']['server']['data_dir'],
-      :url => node['devpi']['server']['url'],
+      :host => node['devpi']['server']['host'],
       :port => node['devpi']['server']['port'],
     )
   end
