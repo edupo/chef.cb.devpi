@@ -24,7 +24,7 @@ Add `recipe[devpi::server]`
 
 ### devpi::server
 
-These attributes are under `node['devpi']['server']
+These attributes are under `node['devpi']['server']`
 
 Attribute|Description|Type|Default
 ---------|-----------|----|-------
