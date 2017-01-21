@@ -74,11 +74,12 @@ control 'devpi-service-1' do
   end
 end
 
-control 'devpi-service-2' do
-  impact 1.0
-  title 'Devpi must listen on the required port'
-
-  describe port(3141) do
-    it { should be_listening }
-  end
-end
+# Skipped for the moment -> 'https://github.com/chef/inspec/issues/1394'
+# control 'devpi-service-2' do
+#  impact 1.0
+#  title 'Devpi must listen on the required port'
+#
+#  describe port(3141) do
+#    it { should be_listening }
+#  end
+# end
