@@ -16,6 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Server
 default['devpi']['server']['host']     = 'localhost'
 default['devpi']['server']['port']     = 3141
 
@@ -26,3 +27,7 @@ default['devpi']['server']['group']    = 'devpi'
 
 default['devpi']['server']['name']     = 'devpi-server'
 default['devpi']['server']['version']  = nil
+
+# Client
+default['devpi']['client']['name']     = 'devpi-client'
+default['devpi']['client']['version']  = nil

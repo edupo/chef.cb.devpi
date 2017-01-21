@@ -22,6 +22,15 @@ Add `recipe[devpi::server]`
 
 ## Attributes
 
+### devpi::client
+
+These attributes are under `node['devpi']['client']`
+
+Attribute|Description|Type|Default
+---------|-----------|----|-------
+name | Devpi client package/binary name | String | devpi-client
+version | Desired client server version to install | String | nil (latest)
+
 ### devpi::server
 
 These attributes are under `node['devpi']['server']`
@@ -55,8 +64,8 @@ This software is licensed under [Apache License, Version
 ## TODO
 
 - [x] Install devpi server
-- [ ] Configure service for systemd and init.d
-- [ ] Add devpi client
+- [x] Configure service for systemd and init.d
+- [x] Add devpi client
 - [ ] Add Nginx frontend
 - [ ] Add mirror configuration
 - [ ] Create indexes??
