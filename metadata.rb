@@ -8,7 +8,10 @@ version '0.1.0'
 
 depends 'poise-python', '~> 1.5.1'
 
+%w(ubuntu debian).each do |os|
+  supports os
+end
+
 issues_url 'https://github.com/edupo/chef.cb.devpi/issues' \
   if respond_to?(:issues_url)
-
 source_url 'https://github.com/edupo/chef.cb.devpi' if respond_to?(:source_url)
