@@ -26,23 +26,31 @@
 . /lib/lsb/init-functions
 <% end -%>
 
-# Define some variables
 APP=<%= @name %>
-# Name of the user to run as
 USER=<%= @user %>
-# Location of application's base directory
+
 BASE=<%= @home_dir %>
-PID=<%= @data_dir %>/<%= @name %>.pid
+DATA=<%= @data_dir %>
+
+HOST=<%= @host %>
+PORT=<%= @port %>
+
+CMD="$BASE/bin/$APP --serverdir $DATA"
+
 
 start() {
+  if test ! -e $DATA/.nodeinfo; then
+    echo "Initializating $APP"
+    su -l $USER -c "$CMD --init"
+  fi
   echo "Starting $APP"
-  su -l $USER -c /bin/sh $BASE/bin/activate && $BASE/bin/$APP --host <%= @url %> --port <%= @port %> --serverdir <%= @data_dir %> --start
+  su -l $USER -c "$CMD --host $HOST --port $PORT --start"
   return $?
 }
 
 stop() {
   echo "Stopping $APP"
-  su -l $USER -c $BASE/bin/$APP --stop
+  su -l $USER -c "$CMD --stop"
   return $?
 }
 
@@ -65,7 +73,7 @@ case "$1" in
     ;;
   # Status command
   status)
-    su -l $USER -c $BASE/bin/$APP --status
+    $CMD --status
     RETVAL=$?
     ;;
   *)
