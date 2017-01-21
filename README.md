@@ -15,6 +15,7 @@ Add `recipe[devpi::server]`
 ## Requirements
 
 ### Platforms
+- Debian >= 8
 - Ubuntu >= 14.04
 
 ### Cookbook dependencies
