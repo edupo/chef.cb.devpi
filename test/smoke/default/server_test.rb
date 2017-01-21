@@ -1,9 +1,6 @@
 # # encoding: utf-8
 
-# Inspec test for recipe devpio::default
-
-# The Inspec reference, with examples and extensive documentation, can be
-# found at http://inspec.io/docs/reference/resources/
+# Inspec test for recipe devpio::server
 
 raise if os.windows?
 
@@ -13,8 +10,8 @@ end
 
 control 'devpi-server-1' do
   impact 1.0
-
   title 'Devpi server user and group schema'
+
   describe user('devpi') do
     it { should exist }
   end

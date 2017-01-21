@@ -1,6 +1,6 @@
 #
 # Cookbook:: devpio
-# Recipe:: default
+# Recipe:: client
 #
 # Copyright:: 2017, Eduardo Lezcano
 #
@@ -16,5 +16,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe '::server'
-include_recipe '::client'
+raise if node['platform'] == 'windows'
+
+include_recipe 'poise-python'
+
+python_runtime '3'
+
+python_package node['devpi']['client']['name'] do
+  version node['devpi']['client']['version'] unless \
+    node['devpi']['client']['version'].nil?
+end
