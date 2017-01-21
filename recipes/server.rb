@@ -52,7 +52,6 @@ directory node['devpi']['server']['data_dir'] do
   recursive true
 end
 
-
 if node['init_package'] == 'systemd'
 
   execute 'systemctl-daemon-reload' do
@@ -69,14 +68,13 @@ if node['init_package'] == 'systemd'
     notifies :run, 'execute[systemctl-daemon-reload]', :immediately
     notifies :restart, 'service[devpi]', :delayed
     variables(
-      :name => node['devpi']['server']['name'],
-      :user => node['devpi']['server']['user'],
-      :group => node['devpi']['server']['group'],
-      :home_dir => node['devpi']['server']['home_dir'],
-      :data_dir => node['devpi']['server']['data_dir'],
-      :host => node['devpi']['server']['host'],
-      :port => node['devpi']['server']['port'],
-      :storage => 'sqlite'
+      name:     node['devpi']['server']['name'],
+      user:     node['devpi']['server']['user'],
+      group:    node['devpi']['server']['group'],
+      home_dir: node['devpi']['server']['home_dir'],
+      data_dir: node['devpi']['server']['data_dir'],
+      host:     node['devpi']['server']['host'],
+      port:     node['devpi']['server']['port']
     )
   end
 
@@ -87,19 +85,19 @@ else
     mode '0775'
     notifies :restart, 'service[devpi]', :delayed
     variables(
-      :name => node['devpi']['server']['name'],
-      :user => node['devpi']['server']['user'],
-      :group => node['devpi']['server']['group'],
-      :home_dir => node['devpi']['server']['home_dir'],
-      :data_dir => node['devpi']['server']['data_dir'],
-      :host => node['devpi']['server']['host'],
-      :port => node['devpi']['server']['port'],
+      name:     node['devpi']['server']['name'],
+      user:     node['devpi']['server']['user'],
+      group:    node['devpi']['server']['group'],
+      home_dir: node['devpi']['server']['home_dir'],
+      data_dir: node['devpi']['server']['data_dir'],
+      host:     node['devpi']['server']['host'],
+      port:     node['devpi']['server']['port']
     )
   end
 
 end
 
 service 'devpi' do
-  supports :status => true, :restart => true, :start => true, :stop => true
+  supports status: true, restart: true, start: true, stop: true
   action :enable
 end
