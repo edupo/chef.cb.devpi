@@ -29,7 +29,6 @@ end
 user node['devpi']['server']['user'] do
   gid node['devpi']['server']['group']
   home node['devpi']['server']['home_dir']
-  shell '/bin/false'
   system true
 end
 
