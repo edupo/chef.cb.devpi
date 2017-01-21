@@ -22,6 +22,15 @@ Add `recipe[devpi::server]`
 
 ## Attributes
 
+### devpi::client
+
+These attributes are under `node['devpi']['client']`
+
+Attribute|Description|Type|Default
+---------|-----------|----|-------
+name | Devpi client package/binary name | String | devpi-client
+version | Desired client server version to install | String | nil (latest)
+
 ### devpi::server
 
 These attributes are under `node['devpi']['server']`
