@@ -1,8 +1,9 @@
 
+require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 require 'foodcritic'
 
-task default: [:rubocop, :foodcritic]
+task default: [:rubocop, :foodcritic, :spec]
 
 FoodCritic::Rake::LintTask.new do |t|
   t.options = {
@@ -12,3 +13,5 @@ FoodCritic::Rake::LintTask.new do |t|
 end
 
 RuboCop::RakeTask.new
+
+RSpec::Core::RakeTask.new(:spec)
