@@ -23,29 +23,15 @@ Add `recipe[devpi::server]`
 
 ## Attributes
 
-### devpi::client
-
-These attributes are under `node['devpi']['client']`
-
-Attribute|Description|Type|Default
----------|-----------|----|-------
-name | Devpi client package/binary name | String | devpi-client
-version | Desired client server version to install | String | nil (latest)
-
 ### devpi::server
 
 These attributes are under `node['devpi']['server']`
 
 Attribute|Description|Type|Default
 ---------|-----------|----|-------
-url | Devpi server Url to listen from | String | http://localhost
+host | Devpi server Url to listen from | String | http://localhost
 port | Devpi server port where your boats will arrive | Integer | 3141
-home_dir | Devpi server installation directory | String | /home/devpi
 data_dir | Devpi server data directory | String | /var/devpi
-user | Devpi server user | String | devpi
-group | Devpi server group | String | devpi
-name | Devpi server package/binary name | String | devpi-server
-version | Desired devpi server version to install | String | nil (latest)
 
 ## Contributing
 
@@ -67,7 +53,7 @@ This software is licensed under [Apache License, Version
 - [x] Install devpi server
 - [x] Configure service for systemd and init.d
 - [x] Add devpi client
-- [ ] Add Nginx frontend
+- [ ] Create users
+- [ ] Create indexes
 - [ ] Add mirror configuration
-- [ ] Create indexes??
-
+- [ ] Add Nginx frontend
