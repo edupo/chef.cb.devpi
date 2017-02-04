@@ -1,6 +1,6 @@
 #
 # Cookbook:: devpio
-# Resource:: client
+# Provider:: client
 #
 # Copyright:: 2017, Eduardo Lezcano
 #
@@ -16,5 +16,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-actions :create, :remove
-default_action :create
+action :remove do
+  python_package 'devpi-client' do
+    action :remove
+  end
+end
+
+action :create do
+  include_recipe 'poise-python'
+
+  python_runtime '3'
+
+  python_package 'devpi-client'
+end
