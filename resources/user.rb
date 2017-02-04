@@ -1,6 +1,6 @@
 #
 # Cookbook:: devpio
-# Resource:: server
+# Resource:: user 
 #
 # Copyright:: 2017, Eduardo Lezcano
 #
@@ -21,5 +21,9 @@ default_action :create
 
 # :name is, well... The user name.
 # :password for the user. Keep it on a encrypted bag! ;)
+# :server_url where to connect the client to manage the user.
 property :name, String, default: 'root'
 property :password, String, default: 'password'
+
+property :server_url, String, default: \
+  "http://localhost:#{node['devpi']['server']['port']}" 
