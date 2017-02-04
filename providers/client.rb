@@ -1,6 +1,6 @@
 #
 # Cookbook:: devpio
-# Attribute Set:: default
+# Provider:: client
 #
 # Copyright:: 2017, Eduardo Lezcano
 #
@@ -16,8 +16,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Server
-default['devpi']['server']['host']     = 'localhost'
-default['devpi']['server']['port']     = 3141
+use_inline_resources
 
-default['devpi']['server']['data_dir'] = '/var/devpi'
+def whyrun_supported?
+  true
+end
+
+action :remove do
+  python_package 'devpi-client' do
+    action :remove
+  end
+end
+
+action :create do
+  include_recipe 'poise-python'
+
+  python_runtime '3'
+
+  python_package 'devpi-client'
+end

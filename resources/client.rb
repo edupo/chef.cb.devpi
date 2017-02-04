@@ -1,6 +1,6 @@
 #
 # Cookbook:: devpio
-# Attribute Set:: default
+# Resource:: client
 #
 # Copyright:: 2017, Eduardo Lezcano
 #
@@ -16,8 +16,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Server
-default['devpi']['server']['host']     = 'localhost'
-default['devpi']['server']['port']     = 3141
-
-default['devpi']['server']['data_dir'] = '/var/devpi'
+actions :create, :remove
+default_action :create
