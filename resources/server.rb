@@ -16,6 +16,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+actions :create, :remove
+default_action :create
+
+# :user that executes the server
+# :group of the :user
+# :home_dir where the binaries and virtual environment are created
+# :data_dir working directory for the server
+# :host address from where server will listen (0.0.0.0 is all)
+# :port where server listens
+# :version of the server package. nil means latests.
+# :package name for the server
+
 property :user, String, default: 'devpi'
 property :group, String, default: 'devpi'
 
@@ -31,93 +43,3 @@ property :port, Integer, default: 3141, callbacks: {
 
 property :version, String, default: nil
 property :package, String, default: 'devpi-server'
-
-load_current_value do
-end
-
-# rubocop:disable Metrics/BlockLength
-
-action :create do
-  home_dir = "/home/#{user}" if home_dir.nil?
-
-  include_recipe 'poise-python'
-  python_runtime '3'
-
-  declare_resource(:user, user) do
-    gid group
-    home home_dir
-    system true
-  end
-
-  python_virtualenv home_dir
-
-  python_package package do
-    version new_resource.version unless \
-      new_resource.version.nil?
-  end
-
-  directory home_dir do
-    owner user
-    group group
-    recursive true
-  end
-
-  directory data_dir do
-    owner user
-    group group
-    mode '0770'
-    recursive true
-  end
-
-  if node['init_package'] == 'systemd'
-
-    execute 'systemctl-daemon-reload' do
-      command '/bin/systemctl --system daemon-reload'
-      action :nothing
-    end
-
-    template '/etc/systemd/system/devpi.service' do
-      source 'devpi.service.erb'
-      owner 'root'
-      group 'root'
-      mode '0775'
-      action :create
-      notifies :run, 'execute[systemctl-daemon-reload]', :immediately
-      notifies :restart, 'service[devpi]', :delayed
-      variables(
-        name:     package,
-        user:     user,
-        group:    group,
-        home_dir: home_dir,
-        data_dir: data_dir,
-        host:     host,
-        port:     port
-      )
-    end
-
-  else
-
-    template 'etc/init.d/devpi' do
-      source 'devpi.init.erb'
-      mode '0775'
-      notifies :restart, 'service[devpi]', :delayed
-      variables(
-        name:     package,
-        user:     user,
-        group:    group,
-        home_dir: home_dir,
-        data_dir: data_dir,
-        host:     host,
-        port:     port
-      )
-    end
-
-  end
-
-  service 'devpi' do
-    supports status: true, restart: true, start: true, stop: true
-    action :enable
-  end
-end
-
-# rubocop:enable Metrics/BlockLength
