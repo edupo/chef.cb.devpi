@@ -7,6 +7,6 @@ Type=forking
 User=<%= @user %>
 Group=<%= @group %>
 ExecStartPre=-<%= @home_dir %>/bin/<%= @name %> --serverdir <%= @data_dir %> --init
-ExecStart=<%= @home_dir %>/bin/<%= @name %> --host <%= @host %> --port <%= @port %> --serverdir <%= @data_dir %> --start 
+ExecStart=<%= @home_dir %>/bin/python <%= @home_dir %>/bin/<%= @name %> --host <%= @host %> --port <%= @port %> --serverdir <%= @data_dir %> --start 
 [Install]
 WantedBy=multi-user.target
