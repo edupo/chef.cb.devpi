@@ -22,7 +22,4 @@ include_recipe 'poise-python'
 
 python_runtime '3'
 
-python_package node['devpi']['client']['name'] do
-  version node['devpi']['client']['version'] unless \
-    node['devpi']['client']['version'].nil?
-end
+python_package 'devpi-client'
