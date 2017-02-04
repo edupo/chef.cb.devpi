@@ -19,14 +19,14 @@
 property :user, String, default: 'devpi'
 property :group, String, default: 'devpi'
 
-property :home_dir, String, default: nil 
+property :home_dir, String, default: nil
 property :data_dir, String, default: '/var/devpi'
 
 property :host, String, default: 'localhost'
-property :port, Fixnum, default: 3141, callbacks: {
-  'should be a valid non-system port' => lambda {
-    |p| p > 1024 && p < 65535
-  }
+property :port, Integer, default: 3141, callbacks: {
+  'should be a valid non-system port' => lambda do |p|
+    p > 1024 && p < 65_535
+  end
 }
 
 property :version, String, default: nil
@@ -35,19 +35,17 @@ property :package, String, default: 'devpi-server'
 load_current_value do
 end
 
+# rubocop:disable Metrics/BlockLength
+
 action :create do
   home_dir = "/home/#{user}" if home_dir.nil?
 
-  # Making sure python is installed.
   include_recipe 'poise-python'
-  
   python_runtime '3'
-
-  log "The home is set to '${home_dir}'"
 
   declare_resource(:user, user) do
     gid group
-    home home_dir 
+    home home_dir
     system true
   end
 
@@ -59,14 +57,14 @@ action :create do
   end
 
   directory home_dir do
-    owner user 
-    group group 
+    owner user
+    group group
     recursive true
   end
 
   directory data_dir do
-    owner user 
-    group group 
+    owner user
+    group group
     mode '0770'
     recursive true
   end
@@ -93,7 +91,7 @@ action :create do
         home_dir: home_dir,
         data_dir: data_dir,
         host:     host,
-        port:     port 
+        port:     port
       )
     end
 
@@ -110,7 +108,7 @@ action :create do
         home_dir: home_dir,
         data_dir: data_dir,
         host:     host,
-        port:     port 
+        port:     port
       )
     end
 
@@ -121,3 +119,5 @@ action :create do
     action :enable
   end
 end
+
+# rubocop:enable Metrics/BlockLength

@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-devpio_server 'devpi-server' do 
+devpio_server 'devpi-server' do
   host node['devpi']['server']['host']
   port node['devpi']['server']['port']
   data_dir node['devpi']['server']['data_dir']
