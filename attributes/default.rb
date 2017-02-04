@@ -20,14 +20,4 @@
 default['devpi']['server']['host']     = 'localhost'
 default['devpi']['server']['port']     = 3141
 
-default['devpi']['server']['home_dir'] = '/home/devpi'
 default['devpi']['server']['data_dir'] = '/var/devpi'
-default['devpi']['server']['user']     = 'devpi'
-default['devpi']['server']['group']    = 'devpi'
-
-default['devpi']['server']['name']     = 'devpi-server'
-default['devpi']['server']['version']  = nil
-
-# Client
-default['devpi']['client']['name']     = 'devpi-client'
-default['devpi']['client']['version']  = nil
