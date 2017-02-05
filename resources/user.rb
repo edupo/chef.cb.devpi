@@ -1,6 +1,6 @@
 #
 # Cookbook:: devpio
-# Resource:: user 
+# Resource:: user
 #
 # Copyright:: 2017, Eduardo Lezcano
 #
@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-actions :create, :remove, :login, :logoff
+actions :create, :remove
 default_action :create
 
 # :name is, well... The user name.
@@ -26,4 +26,4 @@ property :name, String, default: 'root'
 property :password, String, default: 'password'
 
 property :server_url, String, default: \
-  "http://localhost:#{node['devpi']['server']['port']}" 
+  "http://localhost:#{node['devpi']['server']['port']}"

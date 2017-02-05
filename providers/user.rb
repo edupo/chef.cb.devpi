@@ -1,6 +1,6 @@
 #
 # Cookbook:: devpio
-# Provider:: user 
+# Provider:: user
 #
 # Copyright:: 2017, Eduardo Lezcano
 #
@@ -16,48 +16,66 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+use_inline_resources
+
+def whyrun_supported?
+  true
+end
+
+Cmd = Mixlib::ShellOut
+
 action :create do
   user = new_resource
 
-  execute 'devpi use' do
-    command "devpi use '#{user.server_url}'"
-  end
-  
-  devpio_user 'root' do
-    password ''
-    action :login
-  end
+  devpi_use(user.server_url)
 
-  execute 'devpi user create' do
-    command "devpi user -c '#{user.name}' password='#{user.password}'"
-    not_if "devpi user -l | grep #{user.name}"
-  end 
+  exist = devpi_user_exist?(user.name)
 
-  devpio_user 'root' do
-    password ''
-    action :logoff
-  end
+  create(user.server_url, user.name, user.password) unless exist
+
+  new_resource.updated_by_last_action(!exist)
 end
 
 action :remove do
+  user = new_resource
+
+  devpi_use(user.server_url)
+
+  exist = devpi_user_exist?(user.server_url, user.name)
+
+  remove(user.server_url, user.name) if exist
+
+  new_resource.updated_by_last_action(exist)
 end
 
-action :login do
-  user = new_resource
-  execute 'devpi use' do
-    command "devpi use '#{user.server_url}'"
-  end
-  execute 'devpi login' do
-    command "devpi login '#{user.name}' --password '#{user.password}'"
-  end
+def devpi_use(url)
+  Cmd.new("devpi use '#{url}'").run_command
 end
 
-action :logoff do
-  user = new_resource
-  execute 'devpi use' do
-    command "devpi use '#{user.server_url}'"
-  end
-  execute 'devpi logoff' do
-    command 'devpi logoff'
-  end
+def create(url, name, password)
+  devpi_use(url)
+  login('root', '')
+  Cmd.new("devpi user -c '#{name}' password='#{password}'").run_command
+  logoff
+end
+
+def remove(url, name)
+  devpi_use(url)
+  login(url, 'root', '')
+  Cmd.new("devpi user -y --delete '#{name}'")
+  logoff
+end
+
+def login(name, password)
+  Cmd.new("devpi login '#{name}' --password '#{password}'").run_command
+end
+
+def logoff
+  Cmd.new('devpi logoff').run_command
+end
+
+def devpi_user_exist?(name)
+  find = Cmd.new("devpi user -l | grep #{name}")
+  find.run_command
+  find.stdout =~ /^#{name}$/
 end
