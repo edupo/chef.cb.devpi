@@ -21,9 +21,3 @@ devpio_server 'devpi-server' do
   port node['devpi']['server']['port']
   data_dir node['devpi']['server']['data_dir']
 end
-
-include_recipe '::client'
-
-devpio_user 'edu' do
-  password 'holita'
-end
