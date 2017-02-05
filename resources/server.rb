@@ -31,7 +31,7 @@ default_action :create
 property :user, String, default: 'devpi'
 property :group, String, default: 'devpi'
 
-property :home_dir, String, default: nil
+property :home_dir, String
 property :data_dir, String, default: '/var/devpi'
 
 property :host, String, default: 'localhost'
@@ -41,5 +41,5 @@ property :port, Integer, default: 3141, callbacks: {
   end
 }
 
-property :version, String, default: nil
+property :version, String
 property :package, String, default: 'devpi-server'
