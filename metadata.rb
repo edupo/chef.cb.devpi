@@ -5,7 +5,7 @@ license 'apachev2'
 description 'Installs/Configures devpi server and client'
 long_description 'Devpi is a Pypi caching mirror which works with pip
 and easy_install.'
-version '0.2.0'
+version '0.2.1'
 
 depends 'poise-python', '~> 1.5.1'
 
