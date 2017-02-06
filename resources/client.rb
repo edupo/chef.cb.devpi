@@ -20,4 +20,4 @@ actions :create, :remove
 default_action :create
 
 property :version, String
-property :package, String, default: 'devpi-server'
+property :package, String, default: 'devpi-client'
