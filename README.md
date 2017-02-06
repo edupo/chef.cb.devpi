@@ -23,8 +23,6 @@ Add `recipe[devpi::server]`
 
 ## Attributes
 
-### devpi::server
-
 These attributes are under `node['devpi']['server']`
 
 Attribute|Description|Type|Default
