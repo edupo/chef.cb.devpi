@@ -1,8 +1,10 @@
 # devpio status [![Build Status](https://travis-ci.org/edupo/chef.cb.devpi.svg?branch=master)](https://travis-ci.org/edupo/chef.cb.devpi)
 
 ## Decription
-Installs and configures a devpi server initializing it as a service for your
+- Installs and configures a devpi server initializing it as a service for your
 most appropriate init script or daemon.
+- Installs devpi client.
+- Manages devpi users from a client.
 
 > There are other cookbooks you may take a look into before considering this
 > one as it is __under development__.
