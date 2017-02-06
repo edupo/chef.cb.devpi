@@ -71,6 +71,19 @@ control 'devpi-service-1' do
   end
 end
 
+control 'devpi-client-1' do
+  impact 0.8
+  title 'Devpi client properly installed'
+
+  describe command('devpi') do
+    it { should exist }
+  end
+
+  describe command('devpi --version') do
+    its('stdout') { should match(/devpi-client/) }
+  end
+end
+
 # Skipped for the moment -> 'https://github.com/chef/inspec/issues/1394'
 # control 'devpi-service-2' do
 #  impact 1.0
