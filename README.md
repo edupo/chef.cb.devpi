@@ -50,11 +50,9 @@ Property|Description|Type|Default
 --------|-----------|----|-------
 user | Devpi service system user | String | devpi
 group | Devpi service system group | String | devpi
-home_dir | Location where devpi binaries and virtualenv is installed | String |
-/home/#{user}
+home_dir | Location where devpi binaries and virtualenv is installed | String | /home/#{user}
 data_dir | Data storage location | String | undefined (/var/devpi)
-host | IP to host the service | String | localhost (remember that you need to
-set this to 0.0.0.0 if you want to use devpi server in your network)
+host | IP to host the service | String | localhost (remember that you need to set this to 0.0.0.0 if you want to use devpi server in your network)
 port | Service's port | Integer | 3141
 version | Devpi server package version | String | undefined (latest)
 package | Devpi server package name | String | devpi-server
