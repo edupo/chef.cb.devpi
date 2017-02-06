@@ -23,7 +23,7 @@ def whyrun_supported?
 end
 
 action :remove do
-  python_package 'devpi-client' do
+  python_package new_resource.package do
     action :remove
   end
 end
@@ -33,5 +33,8 @@ action :create do
 
   python_runtime '3'
 
-  python_package 'devpi-client'
+  python_package new_resource.package do
+    version new_resource.version unless \
+      new_resource.version.nil?
+  end
 end
