@@ -19,5 +19,34 @@
 actions :create, :remove
 default_action :create
 
+# :version of the devpi client package to install
+# :package name of the devpi client
 property :version, String
 property :package, String, default: 'devpi-client'
+
+action :remove do
+  python_package new_resource.package do
+    action :remove
+  end
+end
+
+action :create do
+  include_recipe 'poise-python'
+
+  python_runtime '3'
+
+  python_package new_resource.package do
+    version new_resource.version unless \
+      new_resource.version.nil?
+  end
+end
+
+action_class do
+  # If not defined by default
+  use_inline_resources
+
+  # Whyrun supported
+  def whyrun_supported?
+    true
+  end
+end
