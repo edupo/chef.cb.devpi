@@ -16,9 +16,6 @@ platforms:
 
 suites:
   - name: defalut 
-    run_list:
-      - recipe[devpio]
-    verifier:
-      inspec_tests:
-        - test/smoke/default
     attributes:
+    run_list:
+      - recipe[devpi_test::default]
