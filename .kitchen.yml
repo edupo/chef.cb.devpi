@@ -15,10 +15,7 @@ platforms:
   - name: ubuntu-16.04
 
 suites:
-  - name: defalut 
-    run_list:
-      - recipe[devpio]
-    verifier:
-      inspec_tests:
-        - test/smoke/default
+  - name: default 
     attributes:
+    run_list:
+      - recipe[devpi_test::default]
