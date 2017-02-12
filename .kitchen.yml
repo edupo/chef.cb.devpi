@@ -15,7 +15,7 @@ platforms:
   - name: ubuntu-16.04
 
 suites:
-  - name: defalut 
+  - name: default 
     attributes:
     run_list:
       - recipe[devpi_test::default]
