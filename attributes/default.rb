@@ -21,3 +21,8 @@ default['devpi']['server']['host']     = 'localhost'
 default['devpi']['server']['port']     = 3141
 
 default['devpi']['server']['data_dir'] = '/var/devpi'
+
+# Root password is defined as an attribute because is needed for every
+# operation on the server.
+# TODO: Store root user in some other way more secured (encrypted data bag?)
+default['devpi']['root_user']['password'] = 'password'

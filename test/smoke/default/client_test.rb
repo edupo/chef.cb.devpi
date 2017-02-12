@@ -12,10 +12,6 @@ control 'devpi-client-1' do
   impact 1.0
   title 'Devpi client properly installed'
 
-  describe pip('devpi-client') do
-    it { should be_installed }
-  end
-
   describe command('devpi') do
     it { should exist }
   end

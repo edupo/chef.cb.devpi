@@ -1,8 +1,10 @@
 # devpio status [![Build Status](https://travis-ci.org/edupo/chef.cb.devpi.svg?branch=master)](https://travis-ci.org/edupo/chef.cb.devpi)
 
 ## Decription
-Installs and configures a devpi server initializing it as a service for your
+- Installs and configures a devpi server initializing it as a service for your
 most appropriate init script or daemon.
+- Installs devpi client.
+- Manages devpi users from a client.
 
 > There are other cookbooks you may take a look into before considering this
 > one as it is __under development__.
@@ -69,6 +71,23 @@ Property|Description|Type|Default
 version | Devpi client package version | String | undefined (latest)
 package | Devpi client package name | String | devpi-server
 
+### devpi_user
+
+This resource manages devpi users.
+
+#### Actions
+
+* :create
+* :remove
+
+#### Properties
+
+Property|Description|Type|Default
+--------|-----------|----|-------
+resource name | Will be used as the user's name | String | undefined
+password | User's password (This resource is considered sensitive so the password will not be logged) | String | Undefined (empty)
+server_url | Devpi server to manipulate. It should be listening on that interface) | String | localhost
+
 ## Contributing
 
 Please use Github issues/pull reuqests. You may use the provided .kitchen files
@@ -89,7 +108,7 @@ This software is licensed under [Apache License, Version
 - [x] Install devpi server
 - [x] Configure service for systemd and init.d
 - [x] Add devpi client
-- [ ] Create users
+- [x] Create users
 - [ ] Create indexes
 - [ ] Add mirror configuration
 - [ ] Add Nginx frontend

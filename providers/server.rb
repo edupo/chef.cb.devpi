@@ -39,6 +39,10 @@ action :remove do
 end
 
 action :create do
+  devpio_client 'client' do
+    :create
+  end
+
   new_resource.home_dir = "/home/#{new_resource.user}" if \
     new_resource.home_dir.nil?
 
