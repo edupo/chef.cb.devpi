@@ -1,12 +1,25 @@
-# # encoding: utf-8
-
+# encoding: utf-8
 # Inspec test for recipe devpio::server
 
+# Tests only supported in Linux
 raise if os.windows?
 
-describe user('root') do
-  it { should exist }
+# Client
+
+control 'devpi-client-1' do
+  impact 1.0
+  title 'Devpi client properly installed'
+
+  describe command('devpi') do
+    it { should exist }
+  end
+
+  describe command('devpi --version') do
+    its('stdout') { should match(/devpi-client/) }
+  end
 end
+
+# Server
 
 control 'devpi-server-1' do
   impact 1.0
@@ -85,11 +98,11 @@ control 'devpi-client-1' do
 end
 
 # Skipped for the moment -> 'https://github.com/chef/inspec/issues/1394'
-# control 'devpi-service-2' do
-#  impact 1.0
-#  title 'Devpi must listen on the required port'
-#
-#  describe port(3141) do
-#    it { should be_listening }
-#  end
-# end
+control 'devpi-service-2' do
+  impact 1.0
+  title 'Devpi must listen on the required port'
+
+  describe port(3141) do
+    it { should be_listening }
+  end
+end
