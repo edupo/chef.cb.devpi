@@ -6,103 +6,67 @@ raise if os.windows?
 
 # Client
 
-control 'devpi-client-1' do
-  impact 1.0
-  title 'Devpi client properly installed'
+describe command('devpi') do
+  it { should exist }
+end
 
-  describe command('devpi') do
-    it { should exist }
-  end
-
-  describe command('devpi --version') do
-    its('stdout') { should match(/devpi-client/) }
-  end
+describe command('devpi --version') do
+  its('stdout') { should match(/devpi-client/) }
 end
 
 # Server
 
-control 'devpi-server-1' do
-  impact 1.0
-  title 'Devpi server user and group schema'
-
-  describe user('devpi') do
-    it { should exist }
-  end
-
-  describe group('devpi') do
-    it { should exist }
-  end
+## Devpi user
+describe user('devpi') do
+  it { should exist }
 end
 
-control 'devpi-server-2' do
-  impact 1.0
-  title 'Devpi files/dir ownership'
-
-  describe directory('/home/devpi') do
-    it { should be_owned_by 'devpi' }
-    it { should be_grouped_into 'devpi' }
-  end
-
-  describe directory('/var/devpi') do
-    it { should be_owned_by 'devpi' }
-    it { should be_grouped_into 'devpi' }
-  end
-
-  describe file('/var/devpi/.nodeinfo') do
-    it { should be_owned_by 'devpi' }
-    it { should be_grouped_into 'devpi' }
-  end
+describe group('devpi') do
+  it { should exist }
 end
 
-control 'devpi-server-3' do
-  impact 1.0
-  title 'Devpi files/dir access'
+## Devpi-server folders
 
-  describe directory('/home/devpi/bin') do
-    it { should be_readable.by_user('devpi') }
-    it { should be_executable.by_user('devpi') }
-  end
-
-  describe file('/home/devpi/bin/devpi-server') do
-    it { should be_readable.by_user('devpi') }
-    it { should be_executable.by_user('devpi') }
-  end
+describe directory('/home/devpi') do
+  it { should be_owned_by 'devpi' }
+  it { should be_grouped_into 'devpi' }
 end
 
-control 'devpi-service-1' do
-  impact 1.0
-  title 'Devpi service must run'
-
-  describe service('devpi') do
-    it { should be_enabled }
-    it { should be_running }
-  end
-
-  describe processes('devpi-server') do
-    its('list.length') { should eq 1 }
-    its('users') { should eq ['devpi'] }
-  end
+describe directory('/var/devpi') do
+  it { should be_owned_by 'devpi' }
+  it { should be_grouped_into 'devpi' }
 end
 
-control 'devpi-client-1' do
-  impact 0.8
-  title 'Devpi client properly installed'
+describe file('/var/devpi/.nodeinfo') do
+  it { should be_owned_by 'devpi' }
+  it { should be_grouped_into 'devpi' }
+end
 
-  describe command('devpi') do
-    it { should exist }
-  end
+## Devpi-server binaries access
 
-  describe command('devpi --version') do
-    its('stdout') { should match(/devpi-client/) }
-  end
+describe directory('/home/devpi/bin') do
+  it { should be_readable.by_user('devpi') }
+  it { should be_executable.by_user('devpi') }
+end
+
+describe file('/home/devpi/bin/devpi-server') do
+  it { should be_readable.by_user('devpi') }
+  it { should be_executable.by_user('devpi') }
+end
+
+## Devpi service
+
+describe service('devpi') do
+  it { should be_enabled }
+  it { should be_running }
+end
+
+describe processes('devpi-server') do
+  its('list.length') { should eq 1 }
+  its('users') { should eq ['devpi'] }
 end
 
 # Skipped for the moment -> 'https://github.com/chef/inspec/issues/1394'
-control 'devpi-service-2' do
-  impact 1.0
-  title 'Devpi must listen on the required port'
-
-  describe port(3141) do
-    it { should be_listening }
-  end
-end
+# describe port(3141) do
+#   it { should be_listening }
+# end
