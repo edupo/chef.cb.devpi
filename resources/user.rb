@@ -1,6 +1,6 @@
 #
 # Cookbook:: devpio
-# Resource:: client
+# Resource:: user
 #
 # Copyright:: 2017, Eduardo Lezcano
 #
@@ -19,34 +19,44 @@
 actions :create, :remove
 default_action :create
 
-# :version of the devpi client package to install
-# :package name of the devpi client
-property :version, String
-property :package, String, default: 'devpi-client'
+# :password of the user
+# :server_url where the user exists
 
-action :remove do
-  python_package new_resource.package do
-    action :remove
-  end
-end
+property :password, String
+property :server_url, String,
+         default: "http://localhost:#{node['devpi']['server']['port']}"
 
-action :create do
-  include_recipe 'poise-python'
-
-  python_runtime '3'
-
-  python_package new_resource.package do
-    version new_resource.version unless \
-      new_resource.version.nil?
-  end
-end
+extend DevpiClientHelpers
 
 action_class do
+  # Mixin helpers
+  include DevpiClientHelpers
+
   # If not defined by default
   use_inline_resources
 
   # Whyrun supported
   def whyrun_supported?
     true
+  end
+end
+
+action :create do
+  if user_exists?
+    Chef::Log.info("#{new_resource} exists - skipping")
+  else
+    converge_by("Create #{new_resource}") do
+      create
+    end
+  end
+end
+
+action :remove do
+  if user_exists?
+    Chef::Log.info("#{new_resource} does not exist - skipping")
+  else
+    converge_by("Remove #{new_resource}") do
+      remove
+    end
   end
 end

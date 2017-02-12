@@ -43,3 +43,123 @@ property :port, Integer, default: 3141, callbacks: {
 
 property :version, String
 property :package, String, default: 'devpi-server'
+
+# rubocop:disable Metrics/BlockLength
+
+action :remove do
+  service 'devpi' do
+    action :stop, :disable
+  end
+
+  python_package new_resource.package do
+    action :remove
+  end
+
+  python_virtualenv new_resource.package do
+    action :delete
+  end
+end
+
+action :create do
+  devpio_client 'client' do
+    :create
+  end
+
+  new_resource.home_dir = "/home/#{new_resource.user}" if \
+    new_resource.home_dir.nil?
+
+  include_recipe 'poise-python'
+  python_runtime '3'
+
+  declare_resource(:group, new_resource.group) do
+    system true
+  end
+
+  declare_resource(:user, new_resource.user) do
+    gid new_resource.group
+    home new_resource.home_dir
+    system true
+  end
+
+  python_virtualenv new_resource.home_dir
+
+  python_package new_resource.package do
+    version new_resource.version unless \
+      new_resource.version.nil?
+  end
+
+  directory new_resource.home_dir do
+    owner new_resource.user
+    group new_resource.user
+    recursive true
+  end
+
+  directory new_resource.data_dir do
+    owner new_resource.user
+    group new_resource.group
+    mode '0770'
+    recursive true
+  end
+
+  if node['init_package'] == 'systemd'
+
+    execute 'systemctl-daemon-reload' do
+      command '/bin/systemctl --system daemon-reload'
+      action :nothing
+    end
+
+    template '/etc/systemd/system/devpi.service' do
+      source 'devpi.service.erb'
+      owner 'root'
+      group 'root'
+      mode '0775'
+      action :create
+      notifies :run, 'execute[systemctl-daemon-reload]', :immediately
+      notifies :restart, 'service[devpi]', :delayed
+      variables(
+        name:     new_resource.package,
+        user:     new_resource.user,
+        group:    new_resource.group,
+        home_dir: new_resource.home_dir,
+        data_dir: new_resource.data_dir,
+        host:     new_resource.host,
+        port:     new_resource.port
+      )
+    end
+
+  else
+
+    template 'etc/init.d/devpi' do
+      source 'devpi.init.erb'
+      mode '0775'
+      notifies :restart, 'service[devpi]', :delayed
+      variables(
+        name:     new_resource.package,
+        user:     new_resource.user,
+        group:    new_resource.group,
+        home_dir: new_resource.home_dir,
+        data_dir: new_resource.data_dir,
+        host:     new_resource.host,
+        port:     new_resource.port
+      )
+    end
+
+  end
+
+  service 'devpi' do
+    supports status: true, restart: true, start: true, stop: true
+    action :enable
+  end
+end
+
+# rubocop:enable Metrics/BlockLength
+
+action_class do
+  # If not defined by default
+  use_inline_resources
+
+  # Whyrun supported
+  def whyrun_supported?
+    true
+  end
+end
