@@ -18,6 +18,6 @@
 
 include_recipe 'devpio'
 
-devpi_user 'test' do
+devpio_user 'test' do
   password 'test_password'
 end
