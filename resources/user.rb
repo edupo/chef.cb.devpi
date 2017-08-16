@@ -53,10 +53,10 @@ end
 
 action :remove do
   if user_exists?
-    Chef::Log.info("#{new_resource} does not exist - skipping")
-  else
     converge_by("Remove #{new_resource}") do
       remove
     end
+  else
+    Chef::Log.info("#{new_resource} does not exist - skipping")
   end
 end
