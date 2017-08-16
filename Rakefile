@@ -2,7 +2,7 @@
 require 'rubocop/rake_task'
 require 'foodcritic'
 
-task default: [:rubocop, :foodcritic]
+task default: %i(rubocop foodcritic)
 
 FoodCritic::Rake::LintTask.new do |t|
   t.options = {

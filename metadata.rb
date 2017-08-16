@@ -9,7 +9,7 @@ version '0.3.0'
 
 depends 'poise-python', '~> 1.5.1'
 
-%w(ubuntu debian).each do |os|
+%w[ubuntu debian].each do |os|
   supports os
 end
 
