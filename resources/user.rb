@@ -16,7 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-actions :create, :remove
 default_action :create
 
 # :password of the user
@@ -53,10 +52,10 @@ end
 
 action :remove do
   if user_exists?
-    Chef::Log.info("#{new_resource} does not exist - skipping")
-  else
     converge_by("Remove #{new_resource}") do
       remove
     end
+  else
+    Chef::Log.info("#{new_resource} does not exist - skipping")
   end
 end

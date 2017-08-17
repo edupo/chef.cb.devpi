@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 # Inspec test for recipe devpio::server
 
 # Tests only supported in Linux
