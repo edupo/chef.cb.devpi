@@ -1,6 +1,6 @@
 # encoding: utf-8
-# Inspec test for recipe devpio::server
 
+# Inspec test for recipe devpio::server
 
 # Tests only supported in Linux
 raise if os.windows?
