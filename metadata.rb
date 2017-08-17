@@ -6,6 +6,7 @@ description 'Installs/Configures devpi server, client and users'
 long_description 'Devpi is a Pypi caching mirror which works with pip
 and easy_install.'
 version '0.3.0'
+chef_version '>= 12.21' if respond_to?(:chef_version)
 
 depends 'poise-python', '~> 1.5.1'
 
