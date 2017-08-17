@@ -1,7 +1,7 @@
 name 'devpio'
 maintainer 'Eduardo Lezcano'
 maintainer_email 'contact@eduardolezcano.com'
-license 'apachev2'
+license 'Apache-2.0'
 description 'Installs/Configures devpi server, client and users'
 long_description 'Devpi is a Pypi caching mirror which works with pip
 and easy_install.'
