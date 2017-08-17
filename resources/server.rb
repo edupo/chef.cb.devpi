@@ -147,6 +147,7 @@ action :create do
 
   service 'devpi' do
     supports status: true, restart: true, start: true, stop: true
+    retries 3
     action :enable
   end
 end
